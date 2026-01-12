@@ -5,3 +5,6 @@ El primer nodo de accion es el HTTP Responde, el cual conecta con la api de weat
 con las características actuales del tiempo (temperatura, estado, velocidad del viento, humedad, etc).
 Luego pasamos al nodo Switch el cual es un condicional que dependiendo del estado del tiempo (lluvioso, nublado, parcialmente nublado o soleado)
 redirige el flujo y envia un email personalizado con los datos importantes.
+
+## IMPORTANTE
+Este flujo requiere credenciales para google gmail.

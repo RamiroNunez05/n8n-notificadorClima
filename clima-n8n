@@ -1,0 +1,373 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -416,
+        -16
+      ],
+      "id": "67ff5899-5f90-4a9d-832c-11cd31c67f78",
+      "name": "Schedule Trigger",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "sendTo": "ramirosebastiann@gmail.com",
+        "subject": "¡Acá Tenes tu Pronóstico de Hoy!",
+        "message": "=<div style=\"font-family: 'Helvetica', Arial, sans-serif; max-width: 400px; border: 1px solid #90caf9; border-radius: 12px; overflow: hidden; background-color: #ffffff; margin: 0 auto;\">\n    \n    <div style=\"background-color: #1976d2; color: #ffffff; padding: 20px; text-align: center;\">\n        <h2 style=\"margin: 0; font-size: 22px;\">🌦️ REPORTE DEL CLIMA 🌦️</h2>\n        <p style=\"margin: 5px 0 0 0; font-size: 16px; opacity: 0.9;\">📍 {{ $('HTTP Request1').item.json.location.name }}</p>\n    </div>\n\n    <div style=\"padding: 20px; color: #333; line-height: 1.8;\">\n        <div style=\"border-bottom: 1px dashed #bbdefb; padding-bottom: 8px; margin-bottom: 8px;\">\n            🌡️ <b>Temp:</b> {{ $('HTTP Request1').item.json.current.temp_c }}°C\n        </div>\n        <div style=\"border-bottom: 1px dashed #bbdefb; padding-bottom: 8px; margin-bottom: 8px;\">\n            ⛈️ <b>Condición:</b> Lluvioso\n        </div>\n        <div style=\"border-bottom: 1px dashed #bbdefb; padding-bottom: 8px; margin-bottom: 8px;\">\n            📉 <b>Lluvia:</b> {{ $('HTTP Request1').item.json.current.precip_mm }} mm\n        </div>\n        <div style=\"border-bottom: 1px dashed #bbdefb; padding-bottom: 8px; margin-bottom: 8px;\">\n            💨 <b>Viento:</b> {{ $('HTTP Request1').item.json.current.wind_kph }} km/h\n        </div>\n        <div>\n            💧 <b>Humedad:</b> {{ $('HTTP Request1').item.json.current.humidity }}%\n        </div>\n    </div>\n\n    <div style=\"background-color: #e3f2fd; padding: 15px; text-align: center; color: #0d47a1; font-size: 14px; border-top: 1px solid #90caf9;\">\n        📢 <i>El tiempo en Buenos Aires está lluvioso, <br>¡no te olvides el paraguas! ☂️</i>\n    </div>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        -288
+      ],
+      "id": "fe5ffbf3-864d-4743-ac61-2cede63107ee",
+      "name": "Send a message",
+      "webhookId": "24643a7c-7338-42df-8bb5-173314d5209e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NsN5jdBlnRq8yxk2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://api.weatherapi.com/v1/current.json?key=dfe68cbc78ed4474871220338261201&q=Buenos%20Aires&aqi=no",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -176,
+        -16
+      ],
+      "id": "5100eef2-634f-44c3-bf01-71b2b4b26f3c",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "sendTo": "ramirosebastiann@gmail.com",
+        "subject": "¡Acá Tenes tu Pronóstico de Hoy!",
+        "message": "=<div style=\"font-family: 'Helvetica', Arial, sans-serif; max-width: 400px; border: 1px solid #ffcc80; border-radius: 12px; overflow: hidden; background-color: #ffffff; margin: 0 auto;\">\n    \n    <div style=\"background-color: #ff9800; color: #ffffff; padding: 20px; text-align: center;\">\n        <h2 style=\"margin: 0; font-size: 22px;\">🌅 CLIMA ACTUAL 🌅</h2>\n        <p style=\"margin: 5px 0 0 0; font-size: 16px; opacity: 0.95;\">📍 {{ $('HTTP Request1').item.json.location.name }}</p>\n    </div>\n\n    <div style=\"padding: 20px; color: #333; line-height: 1.8;\">\n        <div style=\"border-bottom: 1px dashed #ffe0b2; padding-bottom: 8px; margin-bottom: 8px;\">\n            🌡️ <b>Temp:</b> {{ $('HTTP Request1').item.json.current.temp_c }}°C\n        </div>\n        <div style=\"border-bottom: 1px dashed #ffe0b2; padding-bottom: 8px; margin-bottom: 8px;\">\n            ☀️ <b>Cielo:</b> Despejado / Soleado\n        </div>\n        <div style=\"border-bottom: 1px dashed #ffe0b2; padding-bottom: 8px; margin-bottom: 8px;\">\n            🧢 <b>UV:</b> {{ $('HTTP Request1').item.json.current.uv }}\n        </div>\n        <div style=\"border-bottom: 1px dashed #ffe0b2; padding-bottom: 8px; margin-bottom: 8px;\">\n            💨 <b>Viento:</b> {{ $('HTTP Request1').item.json.current.wind_kph }} km/h\n        </div>\n        <div>\n            🌤️ <b>Humedad:</b> {{ $('HTTP Request1').item.json.current.humidity }}%\n        </div>\n    </div>\n\n    <div style=\"background-color: #fff3e0; padding: 15px; text-align: center; color: #e65100; font-size: 14px; border-top: 1px solid #ffcc80;\">\n        📢 <i>¡El día está increíble en Buenos Aires! <br>Mantenete hidratado si vas a salir. 🥤</i>\n    </div>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        -112
+      ],
+      "id": "2afa9c20-778f-4371-a2ec-02a27dcec775",
+      "name": "Send a message1",
+      "webhookId": "24643a7c-7338-42df-8bb5-173314d5209e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NsN5jdBlnRq8yxk2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.current.condition.text }}",
+                    "rightValue": "Rainy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d302f665-0347-4424-a78e-97cbb24c26ad"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b9eab3c7-b1fa-4361-8252-4947290ebfcf",
+                    "leftValue": "={{ $json.current.condition.text }}",
+                    "rightValue": "Sunny",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b0d541a3-d781-412e-a0ad-4242a8d373b8",
+                    "leftValue": "={{ $json.current.condition.text }}",
+                    "rightValue": "Partly cloudy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5f082a5d-9af5-41d5-949b-b2d16deea3a2",
+                    "leftValue": "={{ $json.current.condition.text }}",
+                    "rightValue": "Cloudy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        -48
+      ],
+      "id": "e3929a1d-ae99-412d-b4ce-48b391df7bc0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "ramirosebastiann@gmail.com",
+        "subject": "¡Acá Tenes tu Pronóstico de Hoy!",
+        "message": "=<div style=\"font-family: Arial, sans-serif; color: #333; max-width: 600px; border: 1px solid #ddd; border-radius: 8px; padding: 20px;\">\n    \n    <h2 style=\"color: #2c3e50; margin-top: 0;\">📍 Reporte del Clima: {{ $('HTTP Request1').item.json.location.name }}</h2>\n    \n    <div style=\"display: flex; align-items: center; margin-bottom: 15px;\">\n        <img src=\"https:{{ $('HTTP Request1').item.json.current.condition.icon }}\" alt=\"Icono Clima\" style=\"width: 64px; height: 64px; margin-right: 15px;\">\n        <div>\n            <span style=\"font-size: 24px; font-weight: bold;\">{{ $('HTTP Request1').item.json.current.temp_c }}°C</span>\n            <br>\n            <span style=\"color: #777;\">{{ $('HTTP Request1').item.json.current.condition.text }}</span>\n        </div>\n    </div>\n\n    <hr style=\"border: 0; border-top: 1px solid #eee;\">\n\n    <p style=\"line-height: 1.6;\">\n        🌧️ <b>Precipitaciones:</b> {{ $('HTTP Request1').item.json.current.precip_mm }} mm<br>\n        🌬️ <b>Viento:</b> {{ $('HTTP Request1').item.json.current.wind_kph }} km/h<br>\n        💧 <b>Humedad:</b> {{ $('HTTP Request1').item.json.current.humidity }} %<br>\n        🌍 <b>Región:</b> {{ $('HTTP Request1').item.json.location.region }}\n    </p>\n\n    <div style=\"background-color: #f9f9f9; padding: 10px; border-radius: 5px; border-left: 4px solid #3498db; margin-top: 20px;\">\n        📢 <b>Aviso:</b> El tiempo en Buenos Aires está {{ $('HTTP Request1').item.json.current.condition.text }}.<br>\n        <i>¡Si vas a salir no te olvides de revisar si necesitas paraguas!</i> ☂️\n    </div>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        64
+      ],
+      "id": "2d4d613e-be6f-4419-abb8-a24955212a39",
+      "name": "Send a message2",
+      "webhookId": "24643a7c-7338-42df-8bb5-173314d5209e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NsN5jdBlnRq8yxk2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ramirosebastiann@gmail.com",
+        "subject": "¡Acá Tenes tu Pronóstico de Hoy!",
+        "message": "=<div style=\"font-family: 'Helvetica', Arial, sans-serif; max-width: 400px; border: 1px solid #cfd8dc; border-radius: 12px; overflow: hidden; background-color: #ffffff; margin: 0 auto;\">\n    \n    <div style=\"background-color: #607d8b; color: #ffffff; padding: 20px; text-align: center;\">\n        <h2 style=\"margin: 0; font-size: 22px;\">☁️ CLIMA: NUBLADO ☁️</h2>\n        <p style=\"margin: 5px 0 0 0; font-size: 16px; opacity: 0.9;\">📍 {{ $('HTTP Request1').item.json.location.name }}</p>\n    </div>\n\n    <div style=\"padding: 20px; color: #37474f; line-height: 1.8;\">\n        <div style=\"border-bottom: 1px dashed #eceff1; padding-bottom: 8px; margin-bottom: 8px;\">\n            🌡️ <b>Temp:</b> {{ $('HTTP Request1').item.json.current.temp_c }}°C\n        </div>\n        <div style=\"border-bottom: 1px dashed #eceff1; padding-bottom: 8px; margin-bottom: 8px;\">\n            🌫️ <b>Cielo:</b> Cubierto\n        </div>\n        <div style=\"border-bottom: 1px dashed #eceff1; padding-bottom: 8px; margin-bottom: 8px;\">\n            ☂️ <b>Lluvia:</b> {{ $('HTTP Request1').item.json.current.precip_mm }} mm\n        </div>\n        <div style=\"border-bottom: 1px dashed #eceff1; padding-bottom: 8px; margin-bottom: 8px;\">\n            🍃 <b>Viento:</b> {{ $('HTTP Request1').item.json.current.wind_kph }} km/h\n        </div>\n        <div>\n            💧 <b>Humedad:</b> {{ $('HTTP Request1').item.json.current.humidity }}%\n        </div>\n    </div>\n\n    <div style=\"background-color: #eceff1; padding: 15px; text-align: center; color: #455a64; font-size: 14px; border-top: 1px solid #cfd8dc;\">\n        📢 <i>Hoy el sol decidió esconderse. <br>Si refresca, ¡tené un abrigo a mano! 🧥</i>\n    </div>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        256
+      ],
+      "id": "b01dda67-18bf-4280-b5e3-d01be5f54479",
+      "name": "Send a message3",
+      "webhookId": "24643a7c-7338-42df-8bb5-173314d5209e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NsN5jdBlnRq8yxk2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Trigger\nEl Schedule Trigger esta programado para dispararse cada 3 horas",
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -448,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "36cd93f6-de64-4bff-86b7-5c5f762ffd40",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## API de Clima \nse conecta a la api weatherapi para traer el estado actual de la Ciudad de Buenos Aires, Distrito Federal",
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "6165ceab-19c2-48b4-878c-54b2465f27c3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Switch \nCompara el estado actual del clima con Rainy (lluvioso), Sunny (soleado), Partly Cloudy (parcialmente nublado) y Cloudy (nublado) para seleccionar el tipo de email a enviar",
+        "height": 208,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        -304
+      ],
+      "typeVersion": 1,
+      "id": "669c6b3c-3cdc-4f4f-ad7d-cb3846582e15",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Emails Personalizados por Estado del Tiempo",
+        "height": 128,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        752,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "0ce4dfe8-841f-4d45-a946-5dd1232368b3",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7fee1d9e-3406-4df4-9b94-1ee250c86c33",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "123981d150810e1d86e0d5df739e816b92770b3d01491ec595be132e4e12b102"
+  },
+  "id": "iyh9SxSVhwITR7w6",
+  "tags": []
+}
